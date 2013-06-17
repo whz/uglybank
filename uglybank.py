@@ -13,11 +13,12 @@ config = 'default'
 def main():
 	conf = ConfigParser()
 	conf.read('config.ini')
-	server = "imap.gmail.com"
+	server = conf.get(config, "server")
+	port = conf.get(config, "port")
 	user = conf.get(config, "username")
 	password = conf.get(config, "password")
 
-	gmail = IMAP4_SSL(server)
+	gmail = IMAP4_SSL(server, port)
 	gmail.login(user, password)
 	gmail.select(conf.get(config, "label"))
 
