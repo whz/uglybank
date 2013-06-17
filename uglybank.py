@@ -21,6 +21,7 @@ def main():
 	gmail.login(user, password)
 	gmail.select(conf.get(config, "label"))
 
+	gmail.select()
 	type, data = gmail.search(None, '(UNSEEN)')
 	msgs = []
 	p_spankki = re.compile("(\d{1,2}\.\d{1,2}\.\d{4}\ \d{1,2}\:\d{1,2}\:\d{1,2}).*?Saldosi\ .+?\ (.+)?\ on\ (.+?) EUR", flags=re.MULTILINE)
