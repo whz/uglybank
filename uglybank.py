@@ -25,7 +25,7 @@ def main():
 	type, data = gmail.search(None, '(UNSEEN)')
 	msgs = []
 	p_spankki = re.compile("(\d{1,2}\.\d{1,2}\.\d{4}\ \d{1,2}\:\d{1,2}\:\d{1,2}).*?Saldosi\ .+?\ (.+)?\ on\ (.+?) EUR", flags=re.MULTILINE)
-	p_tapiola = re.compile("(\d{1,2}\.\d{1,2}\.\d{4}\ \d{1,2}\:\d{1,2}\:\d{1,2}).*?tilillä\ (.+)?\ on\ tänään\ (.+?)\.", flags=re.MULTILINE)
+	p_tapiola = re.compile("(\d{1,2}\.\d{1,2}\.\d{4}\ \d{1,2}\:\d{1,2}\:\d{1,2}).*?tilillä\ (.+)?\ on\ tänään\ (.+?)\.\D", flags=re.MULTILINE)
 	con = None
 
 	for num in data[0].split():
@@ -46,7 +46,9 @@ def main():
 			account = m.group(2)
 			pattern = re.compile('[^0-9,.]', re.UNICODE)
 			sum = str(pattern.sub(' ', m.group(3)))
-			sum = float(sum.replace(" ","").replace(",","."))
+			sum = sum.replace(".","").replace(",","").replace(" ","")
+			sum = sum[0:-2] + "." + sum[-2:]
+			sum = float(sum)
 	        	stamp = int(time.mktime(dt))
 			print "%s	%s	%.2f" % (datetime.fromtimestamp(stamp).strftime("%Y-%m-%d %H:%M:%S"), account, sum)
 		#else:
